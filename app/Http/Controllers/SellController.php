@@ -56,7 +56,7 @@ class SellController extends Controller
         $this->productUtil = $productUtil;
 
         $this->dummyPaymentLine = ['method' => '', 'amount' => 0, 'note' => '', 'card_transaction_number' => '', 'card_number' => '', 'card_type' => '', 'card_holder_name' => '', 'card_month' => '', 'card_year' => '', 'card_security' => '', 'cheque_number' => '', 'bank_account_number' => '',
-            'is_return' => 0, 'transaction_no' => '', ];
+            'is_return' => 0, 'transaction_no' => '','phone_number' => '', 'cash_amount' => '','mpesa_amount' => '' ];
 
         $this->shipping_status_colors = [
             'ordered' => 'bg-yellow',

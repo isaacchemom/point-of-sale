@@ -55,6 +55,11 @@
 				<button type="button" class="btn bg-navy btn-default @if(!$is_mobile) @endif btn-flat no-print @if($pos_settings['disable_pay_checkout'] != 0) hide @endif @if($is_mobile) col-xs-6 @endif" id="pos-finalize" title="@lang('lang_v1.tooltip_checkout_multi_pay')"><i class="fas fa-money-check-alt" aria-hidden="true"></i> @lang('lang_v1.checkout_multi_pay') </button>
 			@endif
 
+            {{-- Custom Code To Add Mpesa Button --}}
+			<button type="button" class="btn bg-success btn-default btn-flat no-print @if(!empty($pos_settings['disable_suspend'])) @endif pos-express-finalize @if(!array_key_exists('mpesa', $payment_types)) hide @endif @if($is_mobile) col-xs-6 @endif" data-pay_method="mpesa" title="@lang('M-PESA')">
+				<img height="20px" width="45px" class="float-right" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/1200px-M-PESA_LOGO-01.svg.png" alt="">
+			</button>
+
 			@if(!Gate::check('disable_express_checkout') || auth()->user()->can('superadmin') || auth()->user()->can('admin'))
 				<button type="button" class="btn btn-success @if(!$is_mobile) @endif btn-flat no-print @if($pos_settings['disable_express_checkout'] != 0 || !array_key_exists('cash', $payment_types)) hide @endif pos-express-finalize @if($is_mobile) col-xs-6 @endif" data-pay_method="cash" title="@lang('tooltip.express_checkout')"> <i class="fas fa-money-bill-alt" aria-hidden="true"></i> @lang('lang_v1.express_checkout_cash')</button> 
 			@endif
@@ -75,8 +80,15 @@
 			</div>
 			@endif
 
+           
+
 			@if(!isset($pos_settings['hide_recent_trans']) || $pos_settings['hide_recent_trans'] == 0)
 			<button type="button" class="pull-right btn btn-primary btn-flat @if($is_mobile) col-xs-6 @endif" data-toggle="modal" data-target="#recent_transactions_modal" id="recent-transactions"> <i class="fas fa-clock"></i> @lang('lang_v1.recent_transactions')</button>
+			@endif
+
+            {{-- Custom code to view recent Mpesa Transactions --}}
+			@if(!isset($pos_settings['hide_recent_trans']) || $pos_settings['hide_recent_trans'] == 0)
+			<button type="button" class="btn btn-info btn-flat pull-right @if($is_mobile) col-xs-6 @endif mr-1" data-toggle="modal" data-target="#recent_mpesa_payments_modal" id="recent-mpesa-payments"> <i class="fas fa-money-bill"></i> @lang('M-PESA')</button>
 			@endif
 
 		</div>

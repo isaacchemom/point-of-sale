@@ -24,7 +24,8 @@
 				</div>
 				<div class="form-group col-xs-12 col-sm-6 @if(!$edit_discount) hide @endif">
 					<label>@lang('sale.discount_amount')</label>
-						{!! Form::text("products[$row_count][line_discount_amount]", @num_format($discount_amount), ['class' => 'form-control input_number row_discount_amount']); !!}
+					{!! Form::text("products[$row_count][line_discount_amount]", @num_format($discount_amount), ['class' => 'form-control input_number row_discount_amount', 'readonly' => 'readonly']) !!}
+
 				</div>
 				@if(!empty($discount))
 					<div class="form-group col-xs-12">

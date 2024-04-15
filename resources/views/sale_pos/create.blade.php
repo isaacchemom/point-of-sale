@@ -79,7 +79,7 @@
 @include('sale_pos.partials.configure_search_modal')
 
 @include('sale_pos.partials.recent_transactions_modal')
-
+@include('sale_pos.partials.mpesa_payments_modal')
 @include('sale_pos.partials.weighing_scale_modal')
 
 @stop
@@ -94,7 +94,8 @@
     @endif
 @stop
 @section('javascript')
-	<script src="{{ asset('js/pos.js?v=' . $asset_v) }}"></script>
+	<!-- <script src="{{ asset('js/pos.js?v=' . $asset_v) }}"></script> -->
+	<script src="{{ asset('js/pos.js') }}"></script>
 	<script src="{{ asset('js/printer.js?v=' . $asset_v) }}"></script>
 	<script src="{{ asset('js/product.js?v=' . $asset_v) }}"></script>
 	<script src="{{ asset('js/opening_stock.js?v=' . $asset_v) }}"></script>

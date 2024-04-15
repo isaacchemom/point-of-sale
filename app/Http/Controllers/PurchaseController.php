@@ -49,7 +49,7 @@ class PurchaseController extends Controller
         $this->moduleUtil = $moduleUtil;
 
         $this->dummyPaymentLine = ['method' => 'cash', 'amount' => 0, 'note' => '', 'card_transaction_number' => '', 'card_number' => '', 'card_type' => '', 'card_holder_name' => '', 'card_month' => '', 'card_year' => '', 'card_security' => '', 'cheque_number' => '', 'bank_account_number' => '',
-            'is_return' => 0, 'transaction_no' => '', ];
+            'is_return' => 0, 'transaction_no' => '','phone_number' => '', 'cash_amount' => '','mpesa_amount' => '' ];
     }
 
     /**

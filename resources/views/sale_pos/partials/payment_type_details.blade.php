@@ -1,4 +1,26 @@
-<div class="payment_details_div @if( $payment_line['method'] !== 'card' ) {{ 'hide' }} @endif" data-type="card" >
+<div class="payment_details_div @if( $payment_line['method'] !== 'mpesa' ) {{ 'hide' }} @endif" data-type="mpesa">
+	<div class="col-md-12">
+		<div class="form-group">
+			{!! Form::label("phone_number_$row_index", __('Phone Number')) !!}
+			{!! Form::text("payment[$row_index][phone_number]", $payment_line['phone_number'], ['class' => 'form-control', 'placeholder' => __('Phone Number'), 'id' => "mpesa_phonenumber"]); !!}
+		</div>
+		<input type="hidden" name="user_id" id="user_id" value="{{auth()->user()->id}}">
+		<input type="hidden" name="stkpush_on" id="stkpush-on" value="0" hidden>
+	</div>
+	<div class="col-md-12">
+		<div class="form-group">
+			{!! Form::label("cash_amount_$row_index", __('Cash Amount')) !!}
+			{!! Form::text("payment[$row_index][cash_amount]", $payment_line['cash_amount'], ['class' => 'form-control', 'placeholder' => __('Cash Amount'), 'id' => "mpesa_cashamount"]); !!}
+		</div>
+	</div>
+
+	<div class="col-md-12">
+		<div class="form-group">
+		{!! Form::hidden("payment[$row_index][mpesa_amount]", $payment_line['mpesa_amount'], ['id' => "mpesa_amount"]) !!}
+		</div>
+	</div>
+</div>
+<div class="payment_details_div @if( $payment_line['method'] !== 'card' ) {{ 'hide' }} @endif" data-type="card">
 	<div class="col-md-4">
 		<div class="form-group">
 			{!! Form::label("card_number_$row_index", __('lang_v1.card_no')) !!}
@@ -45,7 +67,7 @@
 	</div>
 	<div class="clearfix"></div>
 </div>
-<div class="payment_details_div @if( $payment_line['method'] !== 'cheque' ) {{ 'hide' }} @endif" data-type="cheque" >
+<div class="payment_details_div @if( $payment_line['method'] !== 'cheque' ) {{ 'hide' }} @endif" data-type="cheque">
 	<div class="col-md-12">
 		<div class="form-group">
 			{!! Form::label("cheque_number_$row_index",__('lang_v1.cheque_no')) !!}
@@ -53,7 +75,7 @@
 		</div>
 	</div>
 </div>
-<div class="payment_details_div @if( $payment_line['method'] !== 'bank_transfer' ) {{ 'hide' }} @endif" data-type="bank_transfer" >
+<div class="payment_details_div @if( $payment_line['method'] !== 'bank_transfer' ) {{ 'hide' }} @endif" data-type="bank_transfer">
 	<div class="col-md-12">
 		<div class="form-group">
 			{!! Form::label("bank_account_number_$row_index",__('lang_v1.bank_account_number')) !!}
@@ -62,13 +84,12 @@
 	</div>
 </div>
 
-@for ($i = 1; $i < 8; $i++)
-<div class="payment_details_div @if( $payment_line['method'] !== 'custom_pay_' . $i ) {{ 'hide' }} @endif" data-type="custom_pay_{{$i}}" >
+@for ($i = 1; $i < 8; $i++) <div class="payment_details_div @if( $payment_line['method'] !== 'custom_pay_' . $i ) {{ 'hide' }} @endif" data-type="custom_pay_{{$i}}">
 	<div class="col-md-12">
 		<div class="form-group">
 			{!! Form::label("transaction_no_{$i}_{$row_index}", __('lang_v1.transaction_no')) !!}
 			{!! Form::text("payment[$row_index][transaction_no_{$i}]", $payment_line['transaction_no'], ['class' => 'form-control', 'placeholder' => __('lang_v1.transaction_no'), 'id' => "transaction_no_{$i}_{$row_index}"]); !!}
 		</div>
 	</div>
-</div>
-@endfor
+	</div>
+	@endfor

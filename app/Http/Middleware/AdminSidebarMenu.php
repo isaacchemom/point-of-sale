@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Controllers\MpesaController;
 use App\Utils\ModuleUtil;
 use Closure;
 use Menu;
@@ -747,6 +748,14 @@ class AdminSidebarMenu
                             );
                         }
 
+                        if (auth()->user()->can('tax_rate.view') || auth()->user()->can('tax_rate.create')) {
+                            $sub->url(
+                                action([MpesaController::class,'index']),
+                                __('Payment Gateway Settings'),
+                                ['icon' => 'fa fas fa-dollar', 'active' => request()->segment(1) == 'mpesa-settings']
+                            );
+                        }
+                        
                         if (in_array('tables', $enabled_modules) && auth()->user()->can('access_tables')) {
                             $sub->url(
                                 action([\App\Http\Controllers\Restaurant\TableController::class, 'index']),

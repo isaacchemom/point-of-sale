@@ -11,14 +11,14 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     //require('bootstrap-sass');
-} catch (e) {}
+} catch (e) { }
 
 window.moment = require('moment');
 require('moment-timezone');
 
-window.Highcharts = require('highcharts');  
+window.Highcharts = require('highcharts');
 // Load module after Highcharts is loaded
-require('highcharts/modules/exporting')(Highcharts);  
+require('highcharts/modules/exporting')(Highcharts);
 
 //import all the 3rd party libraries
 window.Ladda = require('ladda');
@@ -86,51 +86,69 @@ if (token) {
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
+import Echo from 'laravel-echo';
+const Pusher = require('pusher-js');
+window.Pusher = Pusher;
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: 'qwerty123',
+    wsHost: 'ws.working-scripts.com',
+    wsPort: 6001,
+    wssPort: 443,
+    forceTLS: false,
+    // encrypted: true,
+    disableStats: true,
+    auth: { headers: { Authorization: 'Bearer sometoken' } },
+    authEndpoint: 'http://ws.working-scripts.com/api/broadcasting/auth', // OR
+    // authEndpoint: 'http://api.awesomeapp.test/broadcasting/auth',
+})
 
-import Echo from 'laravel-echo'
 
-window.Pusher = require('pusher-js');
+
+
 
 //if pusher enabled initialize push notification
 if (typeof APP != 'undefined' && APP.PUSHER_ENABLED) {
 
+    console.log("THE VALUE OF THE APP IS: ", APP)
+
     window.Echo = new Echo({
-    	authEndpoint: base_path + '/broadcasting/auth',
+        authEndpoint: base_path + '/broadcasting/auth',
         broadcaster: 'pusher',
         key: APP.PUSHER_APP_KEY,
         cluster: APP.PUSHER_APP_CLUSTER,
-      	forceTLS: true
+        forceTLS: true
     });
 
     //if notification permission is not granted then request for permission
     if (Notification.permission !== 'denied' || Notification.permission === "default") {
-    	Notification.requestPermission();
+        Notification.requestPermission();
     }
 
     window.Echo.private('App.User.' + APP.USER_ID)
-    	.notification((notification) => {
-    	//if permission is granted then notify user
-        if (Notification.permission === 'granted') {
+        .notification((notification) => {
+            //if permission is granted then notify user
+            if (Notification.permission === 'granted') {
 
-        	//specify any additional options like: icon,image
-        	var options = {
-    		    body: notification.body
-    		  };
-
-            //notification title, link is optional but body is mandatory
-            if (_.isUndefined(notification.title)) {
-                notification.title = '';
-            }
-
-    		//create notification
-            var notification_obj = new Notification(notification.title, options);
-
-            //if action defined & clicked take user to that link
-            if (!_.isUndefined(notification.link)) {
-                notification_obj.onclick = function() {
-                   window.open(notification.link);
+                //specify any additional options like: icon,image
+                var options = {
+                    body: notification.body
                 };
+
+                //notification title, link is optional but body is mandatory
+                if (_.isUndefined(notification.title)) {
+                    notification.title = '';
+                }
+
+                //create notification
+                var notification_obj = new Notification(notification.title, options);
+
+                //if action defined & clicked take user to that link
+                if (!_.isUndefined(notification.link)) {
+                    notification_obj.onclick = function () {
+                        window.open(notification.link);
+                    };
+                }
             }
-        }
-    });
+        });
 }

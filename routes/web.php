@@ -31,9 +31,11 @@ use App\Http\Controllers\LabelsController;
 use App\Http\Controllers\LedgerDiscountController;
 use App\Http\Controllers\LocationSettingsController;
 use App\Http\Controllers\ManageUserController;
+use App\Http\Controllers\MpesaController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\OpeningStockController;
+use App\Http\Controllers\PaymentGatewaysController;
 use App\Http\Controllers\PrinterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
@@ -60,6 +62,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VariationTemplateController;
 use App\Http\Controllers\WarrantyController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -132,6 +135,11 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::resource('payment-account', 'PaymentAccountController');
 
     Route::resource('tax-rates', TaxRateController::class);
+    Route::get('mpesa-settings', [MpesaController::class, 'index'])->name('mpesa_settings');
+    Route::get('/gateway-data', [PaymentGatewaysController::class, 'index'])->name('get.payment.gateways');
+    Route::post('/payment-gateways/store', [PaymentGatewaysController::class, 'store'])->name('gateways.store');
+    Route::post('update-mpesa-settings', [MpesaController::class, 'updateMpesaSettings'])->name('update_mpesa_settings');
+
 
     Route::resource('units', UnitController::class);
 
@@ -228,11 +236,17 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::post('/sells/pos/get_payment_row', [SellPosController::class, 'getPaymentRow']);
     Route::post('/sells/pos/get-reward-details', [SellPosController::class, 'getRewardDetails']);
     Route::get('/sells/pos/get-recent-transactions', [SellPosController::class, 'getRecentTransactions']);
+    Route::get('/sells/pos/get-recent-mpesa-payments', [SellPosController::class,'getRecentMpesaPayments']);
+    Route::post('/sells/pos/use-transaction', [SellPosController::class,'useTransaction']);
+    Route::post('/sells/pos/payment_used', [SellPosController::class,'markPaymentAsUsed']);
+    Route::post('/sells/pos/mpesa_stkpush_payment_used', [SellPosController::class,'markMpesaSTKPushPaymentAsUsed']);
     Route::get('/sells/pos/get-product-suggestion', [SellPosController::class, 'getProductSuggestion']);
     Route::get('/sells/pos/get-featured-products/{location_id}', [SellPosController::class, 'getFeaturedProducts']);
     Route::get('/reset-mapping', [SellController::class, 'resetMapping']);
 
     Route::resource('pos', SellPosController::class);
+    
+    Route::post('/confirmation', [MpesaController::class,'handleMpesaConfirmation']);
 
     Route::resource('roles', RoleController::class);
 
@@ -460,7 +474,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::resource('warranties', WarrantyController::class);
 
     Route::resource('dashboard-configurator', DashboardConfiguratorController::class)
-    ->only(['edit', 'update']);
+        ->only(['edit', 'update']);
 
     Route::get('view-media/{model_id}', [SellController::class, 'viewMedia']);
 

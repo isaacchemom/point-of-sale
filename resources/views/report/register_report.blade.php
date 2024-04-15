@@ -49,6 +49,7 @@
                             <th>@lang('cash_register.total_card_slips')</th>
                             <th>@lang('cash_register.total_cheques')</th>
                             <th>@lang('cash_register.total_cash')</th>
+                            <th>@lang('Total M-PESA')</th>
                             <th>@lang('lang_v1.total_bank_transfer')</th>
                             <th>@lang('lang_v1.total_advance_payment')</th>
                             <th>{{$payment_types['custom_pay_1']}}</th>
@@ -69,6 +70,7 @@
                             <td class="footer_total_card_payment"></td>
                             <td class="footer_total_cheque_payment"></td>
                             <td class="footer_total_cash_payment"></td>
+                            <th class="footer_total_mpesa_payment"></th>
                             <td class="footer_total_bank_transfer_payment"></td>
                             <td class="footer_total_advance_payment"></td>'
                             <td class="footer_total_custom_pay_1"></td>

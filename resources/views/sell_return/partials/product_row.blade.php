@@ -33,6 +33,7 @@
 	</td>
 	<td>
 		<input type="text" name="products[{{$row_count}}][unit_price]" class="form-control pos_unit_price input_number mousetrap" value="{{@num_format($product->default_sell_price)}}">
+		
 	</td>
 	@php
 		$hide_tax = 'hide';

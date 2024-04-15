@@ -27,6 +27,18 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\TransactionPaymentDeleted::class => [
             \App\Listeners\DeleteAccountTransaction::class,
         ],
+        \App\Events\StkPushSent::class => [
+            \App\Listeners\StkPushSentListener::class,
+        ],
+        \App\Events\MpesaPaymentDataReceived::class => [
+            \App\Listeners\MpesaPaymentDataReceivedListener::class,
+        ],
+        \App\Events\MpesaC2BDataReceived::class => [
+            \App\Listeners\MpesaC2BDataReceivedListener::class,
+        ],
+        \App\Events\MpesaSTKPushDataProcessed::class => [
+            \App\Listeners\MpesaSTKPushDataReceivedListener::class
+        ],
     ];
 
     /**

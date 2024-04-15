@@ -255,6 +255,13 @@ $(document).ready(function () {
         'click',
         '.input-number .quantity-up, .input-number .quantity-down',
         function () {
+
+            let stkpush_on = $('#stkpush-on').val();
+            if (stkpush_on == 1) {
+                toastr.warning('Please wait for the previous transaction to complete');
+                return false;
+
+            }
             var input = $(this).closest('.input-number').find('input');
             var qty = __read_number(input);
             var step = 1;
